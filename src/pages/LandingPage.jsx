@@ -29,7 +29,7 @@ const LandingPage = () => {
       <section className="relative px-6 md:px-12 pt-20 pb-32 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
           <div className="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-bold tracking-widest uppercase">
-             🚀 Empowering Agroprenuer Muda 2026
+              🚀 Empowering Agroprenuer Muda 2026
           </div>
           <h1 className="text-6xl md:text-7xl font-black text-slate-900 leading-[0.95] tracking-tight">
             Grow Your Farm. <br />
@@ -81,6 +81,22 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Technology Stack / SEO Section */}
+      <section className="bg-white py-12 border-y border-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">
+            Powered by Industrial-Grade Technology
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all">
+            <a href="https://www.odoo.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#714B67] font-bold text-xl transition-colors">Odoo 18</a>
+            <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#3ECF8E] font-bold text-xl transition-colors">Supabase</a>
+            <a href="https://www.oracle.com/cloud/" target="_blank" rel="noopener noreferrer" className="hover:text-[#F80000] font-bold text-xl transition-colors">Oracle OCI</a>
+            <a href="https://www.exabytes.my" target="_blank" rel="noopener noreferrer" className="hover:text-[#0056b3] font-bold text-xl transition-colors">Exabytes</a>
+            <a href="https://www.raspberrypi.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C51A4A] font-bold text-xl transition-colors">Raspberry Pi CM4</a>
+          </div>
+        </div>
+      </section>
+
       {/* Modern Feature Cards */}
       <section id="features" className="bg-slate-900 py-32 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
@@ -97,6 +113,32 @@ const LandingPage = () => {
           ))}
         </div>
       </section>
+
+      {/* Official Footer */}
+      <footer className="bg-slate-900 text-slate-400 py-16 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold">K</div>
+              <span className="text-white text-xl font-bold tracking-tight">KebunData</span>
+            </div>
+            <p className="text-sm max-w-xs leading-relaxed">
+              Next-gen vertical farming automation for modern Malaysian agroprenuers.
+            </p>
+          </div>
+          
+          <div className="text-left md:text-right">
+            <p className="text-white font-bold text-lg">Robot People Industries</p>
+            <p className="text-sm text-green-500 font-mono mt-1">Reg: NS0312683-V</p>
+            <p className="text-xs mt-4 tracking-wide uppercase opacity-50">
+              Siliau, Negeri Sembilan, Malaysia
+            </p>
+            <p className="text-[10px] mt-6 opacity-40">
+              © 2026 All Rights Reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
