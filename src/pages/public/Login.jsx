@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import { supabase } from "../../config/supabaseClient";
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {

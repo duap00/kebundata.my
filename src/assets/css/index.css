@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+/* 1. Remove the forced background from the global body */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: transparent; /* Let the components decide the color */
+}
+
+/* 2. Update the .app-container to be flexible */
+.app-container {
+  display: block; /* Change from flex to block for the landing page */
+  width: 100%;
+}
+
+/* 3. ONLY apply the grey dashboard background if we are NOT on the landing page */
+.app-container:not(.is-landing) {
+  display: flex;
+  background-color: #f8fafc;
+}
