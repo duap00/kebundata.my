@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../supabaseClient';
+// UPDATED: Path to the new config folder
+import { supabase } from '../../config/supabaseClient';
 
 function CropSettings() {
   const [crops, setCrops] = useState([]);
@@ -109,7 +110,6 @@ function CropSettings() {
                 <td style={tdStyle}><input type="number" value={crop.germination_days ?? ''} onChange={e => handleChange(crop.id, 'germination_days', e.target.value)} style={dayInput}/> <span style={unit}>d</span></td>
                 <td style={tdStyle}><input type="number" value={crop.vegetative_days ?? ''} onChange={e => handleChange(crop.id, 'vegetative_days', e.target.value)} style={dayInput}/> <span style={unit}>d</span></td>
                 
-                {/* PH SECTION - WIDER BOXES */}
                 <td style={tdStyle}>
                   <div style={inputGroup}>
                     <input type="number" step="0.1" value={crop.params?.ph_min ?? ''} onChange={e => handleChange(crop.id, 'ph_min', e.target.value, true)} style={paramInput}/>
@@ -118,7 +118,6 @@ function CropSettings() {
                   </div>
                 </td>
 
-                {/* EC SECTION */}
                 <td style={tdStyle}>
                   <div style={inputGroup}>
                     <input type="number" step="0.1" value={crop.params?.ec_min ?? ''} onChange={e => handleChange(crop.id, 'ec_min', e.target.value, true)} style={paramInput}/>
@@ -127,7 +126,6 @@ function CropSettings() {
                   </div>
                 </td>
 
-                {/* TEMP SECTION */}
                 <td style={tdStyle}>
                   <div style={inputGroup}>
                     <input type="number" value={crop.params?.temp_min ?? ''} onChange={e => handleChange(crop.id, 'temp_min', e.target.value, true)} style={paramInput}/>
@@ -148,7 +146,7 @@ function CropSettings() {
   );
 }
 
-// STYLES - UPDATED FOR WIDTH
+// STYLES 
 const addBoxStyle = { background: '#fff', padding: '15px', borderRadius: '12px', marginBottom: '20px', border: '1px solid #eee' };
 const inputStyle = { flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid #ddd' };
 const addBtnStyle = { padding: '12px 25px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' };
@@ -157,11 +155,9 @@ const headerStyle = { background: '#f8f9fa', borderBottom: '2px solid #eee', tex
 const thStyle = { padding: '15px', fontSize: '0.7rem', textTransform: 'uppercase', color: '#666', letterSpacing: '1px' };
 const tdStyle = { padding: '10px 15px', borderBottom: '1px solid #f9f9f9' };
 const rowStyle = { borderBottom: '1px solid #eee' };
-
-// INCREASED WIDTHS HERE
 const dayInput = { width: '55px', padding: '8px', border: '1px solid #ddd', borderRadius: '6px', textAlign: 'center' };
 const paramInput = { 
-  width: '65px', // INCREASED FROM 45px
+  width: '65px', 
   padding: '8px', 
   border: '1px solid #e2e8f0', 
   borderRadius: '6px', 

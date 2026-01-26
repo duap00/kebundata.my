@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
-import { supabase } from './supabaseClient'; 
-import HomePage from './pages/HomePage'; // You can keep this as a backup
-import FarmDashboard from './pages/FarmDashboard';
-import Analytics from './pages/Analytics'; 
-import CropSettings from './pages/CropSettings';
-import Login from './pages/Login';
-import LandingPage from './pages/LandingPage'; // The new high-conversion page
+import { supabase } from './config/supabaseClient'; 
+
+// Pages
+import LandingPage from './pages/public/LandingPage';
+import Login from './pages/public/Login';
+import FarmDashboard from './pages/farm/FarmDashboard';
+import Analytics from './pages/farm/Analytics'; 
+import CropSettings from './pages/farm/CropSettings';
 
 function App() {
   const location = useLocation();
@@ -15,22 +16,14 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  // Check if we are on the Public Landing Page
   const isLandingPage = location.pathname === '/';
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
+    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
-      if (event === 'SIGNED_OUT') {
-        setSession(null);
-        navigate('/'); 
-      }
+      if (event === 'SIGNED_OUT') navigate('/'); 
     });
-
     return () => subscription.unsubscribe();
   }, [navigate]);
 
@@ -44,106 +37,71 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setSession(null);
-    navigate('/');
-  };
-
-  const isActive = (path) => location.pathname === path;
-
-  const sidebarLinkStyle = (path) => ({
-    display: 'flex', 
-    justifyContent: isMobile ? 'flex-start' : 'center', 
-    alignItems: 'center', 
-    padding: '20px 0', 
-    color: 'white', 
-    textDecoration: 'none',
-    background: isActive(path) ? 'rgba(255,255,255,0.1)' : 'transparent',
-    borderLeft: isActive(path) ? '4px solid #d4af37' : '4px solid transparent',
-    fontSize: '1.2rem'
-  });
-
+  // --- UI CLEANUP & ROUTING ---
+  // Adding the 'app-container' class here ensures consistency with your repaired index.css
   return (
-    <div className="app-container" style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+    <div className={`app-container ${isLandingPage ? 'is-landing' : ''}`}>
       
-      {/* 1. ONLY SHOW DASHBOARD HEADER IF NOT ON LANDING PAGE */}
-      {!isLandingPage && (
-        <header style={{ zIndex: 1100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px', height: '70px', background: 'white', borderBottom: '1px solid #eee' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {isMobile && (
-              <button onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', color: '#2c4035' }}>
-                {isOpen ? '✕' : '☰'}
-              </button>
-            )}
-            <img src="/KebunData_logo-LG(2).png" alt="Logo" style={{ height: '35px' }} />
-            <span style={{ fontWeight: '800', fontSize: '1.2rem', color: '#2c4035' }}>Kebun<span style={{color:'#d4af37'}}>Data</span></span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-             {session ? (
-               <button onClick={handleLogout} style={logoutBtnStyle}>LOGOUT</button>
-             ) : (
-               <Link to="/login" style={loginBtnStyle}>LOGIN</Link>
-             )}
-             {session && <div style={profileCircleStyle}>{session.user.email.charAt(0).toUpperCase()}</div>}
-          </div>
-        </header>
-      )}
-
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        
-        {/* 2. ONLY SHOW SIDEBAR IF NOT ON LANDING PAGE */}
-        {!isLandingPage && (
-          <nav style={{ 
-            position: isMobile ? 'fixed' : 'relative',
-            top: 0, left: 0, height: '100%', zIndex: 1050,
-            transform: isMobile && !isOpen ? 'translateX(-100%)' : 'translateX(0)',
-            transition: 'transform 0.3s ease',
-            backgroundColor: '#2c4035',
-            width: isMobile ? '260px' : '70px',
-          }}>
-             <div style={{ marginTop: '20px' }}>
-                <Link to="/" style={sidebarLinkStyle('/')} title="Home" onClick={() => isMobile && setIsOpen(false)}>
-                  🏠 {isMobile && <span style={{marginLeft: '15px'}}>Home</span>}
-                </Link>
-                <Link to="/dashboard" style={sidebarLinkStyle('/dashboard')} title="Dashboard" onClick={() => isMobile && setIsOpen(false)}>
-                  📊 {isMobile && <span style={{marginLeft: '15px'}}>Dashboard</span>}
-                </Link>
-                <Link to="/analytics" style={sidebarLinkStyle('/analytics')} title="Analytics" onClick={() => isMobile && setIsOpen(false)}>
-                  📈 {isMobile && <span style={{marginLeft: '15px'}}>Analytics</span>}
-                </Link>
-                <Link to="/settings" style={sidebarLinkStyle('/settings')} title="Settings" onClick={() => isMobile && setIsOpen(false)}>
-                  ⚙️ {isMobile && <span style={{marginLeft: '15px'}}>Settings</span>}
-                </Link>
-             </div>
-          </nav>
-        )}
-
-        <main style={{ flex: 1, overflowY: 'auto', backgroundColor: isLandingPage ? 'white' : '#f8fafc' }}>
+      {/* 1. PUBLIC ROUTES (Isolating the Landing Page completely) */}
+      {isLandingPage ? (
+        <main className="w-full">
           <Routes>
-            {/* 3. SET LANDINGPAGE AS THE DEFAULT ROOT */}
             <Route path="/" element={<LandingPage />} />
-            
-            <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={session ? <FarmDashboard /> : <Navigate to="/login" />} />
-            <Route path="/analytics" element={session ? <Analytics /> : <Navigate to="/login" />} />
-            <Route path="/settings" element={session ? <CropSettings /> : <Navigate to="/login" />} />
           </Routes>
         </main>
+      ) : (
+        /* 2. DASHBOARD LAYOUT (Only shows for non-landing routes) */
+        <div className="flex flex-col h-screen w-full overflow-hidden bg-[#f8fafc]">
+          <header className="z-[1100] flex justify-between items-center px-5 h-[70px] bg-white border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              {isMobile && (
+                <button onClick={() => setIsOpen(!isOpen)} className="text-2xl text-[#2c4035]">
+                  {isOpen ? '✕' : '☰'}
+                </button>
+              )}
+              <img src="/logos/KebunData_logo-LG(2).png" alt="Logo" className="h-[35px]" />
+              <span className="font-extrabold text-xl text-[#2c4035]">Kebun<span className="text-[#d4af37]">Data</span></span>
+            </div>
 
-        {isMobile && isOpen && !isLandingPage && (
-          <div onClick={() => setIsOpen(false)} style={overlayStyle} />
-        )}
-      </div>
+            <div className="flex items-center gap-4">
+               {session && (
+                 <>
+                   <button onClick={() => supabase.auth.signOut()} className="text-[10px] font-bold text-red-600 bg-red-50 px-3 py-2 rounded-lg hover:bg-red-100 transition">LOGOUT</button>
+                   <div className="w-8 h-8 rounded-full bg-[#2c4035] text-white flex items-center justify-center text-xs font-bold">
+                     {session.user.email.charAt(0).toUpperCase()}
+                   </div>
+                 </>
+               )}
+            </div>
+          </header>
+
+          <div className="flex flex-1 overflow-hidden">
+            <nav className={`
+              ${isMobile ? 'fixed inset-y-0 left-0' : 'relative w-[70px]'} 
+              bg-[#2c4035] transition-transform duration-300 z-[1050]
+              ${isMobile && !isOpen ? '-translate-x-full' : 'translate-x-0'}
+            `}>
+              <div className="mt-5 flex flex-col items-center gap-4">
+                <Link to="/" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Home">🏠</Link>
+                <Link to="/dashboard" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Dashboard">📊</Link>
+                <Link to="/analytics" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Analytics">📈</Link>
+                <Link to="/settings" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Settings">⚙️</Link>
+              </div>
+            </nav>
+
+            <main className="flex-1 overflow-y-auto p-6 bg-[#f8fafc]">
+              <Routes>
+                <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
+                <Route path="/dashboard" element={session ? <FarmDashboard /> : <Navigate to="/login" />} />
+                <Route path="/analytics" element={session ? <Analytics /> : <Navigate to="/login" />} />
+                <Route path="/settings" element={session ? <CropSettings /> : <Navigate to="/login" />} />
+              </Routes>
+            </main>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-// STYLES
-const logoutBtnStyle = { background: '#fee2e2', color: '#dc2626', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 'bold', cursor: 'pointer' };
-const loginBtnStyle = { background: '#27ae60', color: 'white', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 'bold' };
-const profileCircleStyle = { width: '30px', height: '30px', borderRadius: '50%', background: '#2c4035', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.8rem' };
-const overlayStyle = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1040 };
 
 export default App;

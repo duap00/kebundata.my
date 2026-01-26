@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid'; 
-import { supabase } from '../supabaseClient';
+// UPDATED: Path to the new config folder
+import { supabase } from '../../config/supabaseClient'; 
 
 const STAGES = ['sowing', 'seedling', 'germination', 'vegetative', 'harvest', 'packaging'];
 
@@ -100,7 +101,6 @@ function FarmDashboard() {
     const currentIndex = STAGES.indexOf(batch.status);
     const nextStatus = STAGES[currentIndex + 1];
 
-    // TRANSPLANT LOGIC: This happens AFTER Germination as you enter Vegetative
     if (batch.status === 'germination') {
       const selectElement = document.getElementById(`tower-select-${batch.id}`);
       const selectedTowerId = selectElement ? selectElement.value : null;
@@ -136,7 +136,6 @@ function FarmDashboard() {
 
   return (
     <div style={{ padding: isMobile ? '10px' : '20px', paddingBottom: '50px' }}>
-      {/* NEW BATCH & CALENDAR ROW */}
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: '20px', marginBottom: '25px' }}>
         <div style={cardStyle}>
           <h3 style={labelStyle}>🚀 NEW BATCH</h3>
@@ -184,8 +183,6 @@ function FarmDashboard() {
                   <div key={b.id} style={batchItem}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       <span style={{fontWeight: '700', color: '#2c3e50'}}>{b.crops?.name}</span>
-                      
-                      {/* ONLY SHOW DROPDOWN WHEN BATCH REACHES GERMINATION (PREPARING FOR VEGETATIVE) */}
                       {b.status === 'germination' && (
                         <div style={{marginTop: '5px'}}>
                           <label style={{fontSize: '0.6rem', color: '#666', fontWeight: 'bold'}}>TRANSPLANT TO:</label>
@@ -202,7 +199,6 @@ function FarmDashboard() {
                           </select>
                         </div>
                       )}
-
                       <button onClick={() => removeBatch(b.id, b.crops?.name)} style={smallRemoveBtn}>Remove</button>
                     </div>
                     <button onClick={() => moveStatus(b)} style={{...nextBtn, background: b.status === 'packaging' ? '#2c3e50' : '#e8f5e9', color: b.status === 'packaging' ? 'white' : '#2e7d32'}}>
@@ -219,6 +215,7 @@ function FarmDashboard() {
   );
 }
 
+// STYLES - Unchanged but kept for completeness
 const cardStyle = { background: 'white', padding: '15px', borderRadius: '15px', border: '1px solid #eee' };
 const labelStyle = { margin: '0 0 12px 0', fontSize: '0.75rem', color: '#999', fontWeight: 'bold' };
 const inputStyle = { width: '100%', padding: '12px', marginBottom: '12px', borderRadius: '8px', border: '1px solid #ddd' };

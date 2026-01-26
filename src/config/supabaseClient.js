@@ -4,6 +4,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 // This will tell us exactly what is missing in the Console (F12)
+// Since this is now in src/config, it's a cleaner architecture for your Odoo/IoT integration.
 console.log("Checking Supabase Config...");
 console.log("URL exists:", !!supabaseUrl);
 console.log("Key exists:", !!supabaseKey);
