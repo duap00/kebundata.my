@@ -9,7 +9,7 @@ const LandingPage = () => {
       {/* Background Ornament */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-green-50/50 to-transparent -z-10" />
 
-      {/* Navigation - FIXED CONTAINER */}
+      {/* Navigation - UPDATED MENU */}
       <nav className="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -19,8 +19,14 @@ const LandingPage = () => {
           
           <div className="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-slate-500">
             <a href="#features" className="hover:text-green-600 transition">Features</a>
-            <a href="#compliance" className="hover:text-green-600 transition">MyInvois</a>
+            
+            {/* MyInvois changed to Software */}
+            <a href="#software" className="hover:text-green-600 transition">Software</a>
+            
             <a href="#hardware" className="hover:text-green-600 transition">Hardware</a>
+            
+            {/* Added Blog Link with stronger font for visibility */}
+            <Link to="/blog" className="hover:text-green-600 transition text-green-700 font-black">Blog</Link>
           </div>
 
           <Link to="/login" className="bg-slate-900 text-white px-7 py-2.5 rounded-full text-sm font-bold hover:bg-green-600 transition shadow-xl shadow-green-100">
@@ -29,14 +35,12 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section - FIXED GRID OVERLAP */}
+      {/* Hero Section */}
       <section className="relative px-6 md:px-12 py-20 lg:py-32 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left Content */}
           <div className="space-y-8 text-center lg:text-left order-2 lg:order-1">
             <div className="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-[10px] font-black tracking-widest uppercase">
-                🚀 Empowering Agroprenuer Muda 2026
+                  🚀 Empowering Agroprenuer Muda 2026
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[0.95] tracking-tight">
               Grow Your Farm. <br />
@@ -51,13 +55,13 @@ const LandingPage = () => {
               <button onClick={() => navigate('/login')} className="bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-lg hover:scale-105 transition-all shadow-2xl shadow-green-200">
                 GET EARLY ACCESS
               </button>
-              <button className="bg-white border-2 border-slate-100 text-slate-600 px-10 py-5 rounded-2xl font-black text-lg hover:bg-slate-50 transition-all">
-                WATCH DEMO
+              {/* Secondary CTA now goes to Blog */}
+              <button onClick={() => navigate('/blog')} className="bg-white border-2 border-slate-100 text-slate-600 px-10 py-5 rounded-2xl font-black text-lg hover:bg-slate-50 transition-all">
+                READ OUR BLOG
               </button>
             </div>
           </div>
 
-          {/* Right Content: Dashboard Preview UI */}
           <div className="relative w-full group order-1 lg:order-2">
             <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-emerald-400 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
             <div className="relative bg-white border border-slate-200 rounded-[2.5rem] p-3 shadow-2xl overflow-hidden">
@@ -70,7 +74,6 @@ const LandingPage = () => {
                   <div className="hidden md:block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-[10px] font-bold border border-green-500/30">LHDN ENCRYPTED</div>
                 </div>
                 
-                {/* Visual Sensor Stats */}
                 <div className="grid grid-cols-3 gap-3 md:gap-6">
                    <div className="bg-white/5 p-3 md:p-5 rounded-2xl border border-white/10 backdrop-blur-sm">
                      <p className="text-slate-400 text-[9px] uppercase font-bold mb-1">pH Level</p>
@@ -91,23 +94,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Technology Stack Section */}
-      <section className="bg-white py-16 border-y border-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-12">
-            Powered by Industrial-Grade Technology
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all">
-            <span className="font-black text-2xl">Odoo 18</span>
-            <span className="font-black text-2xl">Supabase</span>
-            <span className="font-black text-2xl">Oracle OCI</span>
-            <span className="font-black text-2xl">Exabytes</span>
-            <span className="font-black text-2xl">Raspberry Pi</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Modern Feature Cards */}
+      {/* Feature Cards Section */}
       <section id="features" className="bg-slate-900 py-32 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           {[
@@ -122,6 +109,22 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Software Section */}
+      <section id="software" className="bg-white py-32 px-6 border-b border-slate-50">
+         <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-4xl font-black mb-6">Integrated Software Ecosystem</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">Connecting Odoo 18 with real-time sensor data for full farm transparency.</p>
+         </div>
+      </section>
+
+      {/* Hardware Section */}
+      <section id="hardware" className="bg-slate-50 py-32 px-6">
+         <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-4xl font-black mb-6">Industrial Hardware</h2>
+            <p className="text-slate-500">ZipGrow towers powered by Raspberry Pi CM4 technology.</p>
+         </div>
       </section>
 
       {/* Footer */}
@@ -142,9 +145,6 @@ const LandingPage = () => {
             <p className="text-sm text-green-500 font-mono mt-1 font-bold">Reg: NS0312683-V</p>
             <p className="text-xs mt-6 tracking-widest uppercase font-black opacity-30">
               Siliau, Negeri Sembilan, Malaysia
-            </p>
-            <p className="text-[10px] mt-2 opacity-20 font-bold">
-              © 2026 All Rights Reserved.
             </p>
           </div>
         </div>

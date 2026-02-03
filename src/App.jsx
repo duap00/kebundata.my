@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { supabase } from './config/supabaseClient'; 
 
-// Pages
+// --- PUBLIC PAGES ---
 import LandingPage from './pages/public/LandingPage';
 import Login from './pages/public/Login';
+import BlogList from './pages/public/BlogList';   // New
+import BlogPost from './pages/public/BlogPost';   // New
+
+// --- FARM DASHBOARD PAGES ---
 import FarmDashboard from './pages/farm/FarmDashboard';
 import Analytics from './pages/farm/Analytics'; 
 import CropSettings from './pages/farm/CropSettings';
+import BlogEditor from './pages/farm/BlogEditor'; // New
 
 function App() {
   const location = useLocation();
@@ -16,7 +21,10 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  const isLandingPage = location.pathname === '/';
+  // LOGIC: Check if we are on a public-facing page
+  const isPublicPage = location.pathname === '/' || 
+                       location.pathname.startsWith('/blog') || 
+                       location.pathname === '/login';
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
@@ -37,20 +45,21 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // --- UI CLEANUP & ROUTING ---
-  // Adding the 'app-container' class here ensures consistency with your repaired index.css
   return (
-    <div className={`app-container ${isLandingPage ? 'is-landing' : ''}`}>
+    <div className={`app-container ${isPublicPage ? 'is-landing' : ''}`}>
       
-      {/* 1. PUBLIC ROUTES (Isolating the Landing Page completely) */}
-      {isLandingPage ? (
+      {/* 1. PUBLIC LAYOUT: Clean, Full-width, for SEO and Marketing */}
+      {isPublicPage ? (
         <main className="w-full">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
           </Routes>
         </main>
       ) : (
-        /* 2. DASHBOARD LAYOUT (Only shows for non-landing routes) */
+        /* 2. DASHBOARD LAYOUT: Protected Industrial Interface */
         <div className="flex flex-col h-screen w-full overflow-hidden bg-[#f8fafc]">
           <header className="z-[1100] flex justify-between items-center px-5 h-[70px] bg-white border-b border-gray-100">
             <div className="flex items-center gap-3">
@@ -85,16 +94,17 @@ function App() {
                 <Link to="/" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Home">🏠</Link>
                 <Link to="/dashboard" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Dashboard">📊</Link>
                 <Link to="/analytics" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Analytics">📈</Link>
+                <Link to="/settings/blog/new" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Write Blog">✍️</Link>
                 <Link to="/settings" className="p-4 text-white text-xl hover:bg-white/10 w-full text-center" title="Settings">⚙️</Link>
               </div>
             </nav>
 
             <main className="flex-1 overflow-y-auto p-6 bg-[#f8fafc]">
               <Routes>
-                <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={session ? <FarmDashboard /> : <Navigate to="/login" />} />
                 <Route path="/analytics" element={session ? <Analytics /> : <Navigate to="/login" />} />
                 <Route path="/settings" element={session ? <CropSettings /> : <Navigate to="/login" />} />
+                <Route path="/settings/blog/new" element={session ? <BlogEditor /> : <Navigate to="/login" />} />
               </Routes>
             </main>
           </div>
