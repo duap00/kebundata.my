@@ -12,20 +12,18 @@ const LandingPage = () => {
       {/* Navigation - UPDATED MENU */}
       <nav className="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-green-200">K</div>
-            <span className="text-xl font-black tracking-tighter text-slate-800">Kebun<span className="text-green-600">Data</span></span>
+            <div className="flex flex-col">
+              <span className="text-xl font-black tracking-tighter text-slate-800">Kebun<span className="text-green-600">Data</span></span>
+              <span className="hidden md:inline-block mt-0.5 px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-black tracking-widest uppercase">🚀 Empowering Agroprenuer Muda 2026</span>
+            </div>
           </div>
-          
+
           <div className="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-slate-500">
             <a href="#features" className="hover:text-green-600 transition">Features</a>
-            
-            {/* MyInvois changed to Software */}
-            <a href="#software" className="hover:text-green-600 transition">Software</a>
-            
-            <a href="#hardware" className="hover:text-green-600 transition">Hardware</a>
-            
-            {/* Added Blog Link with stronger font for visibility */}
+            <Link to="/software" className="hover:text-green-600 transition">Software</Link>
+            <Link to="/hardware" className="hover:text-green-600 transition">Hardware</Link>
             <Link to="/blog" className="hover:text-green-600 transition text-green-700 font-black">Blog</Link>
           </div>
 

@@ -7,6 +7,8 @@ import LandingPage from './pages/public/LandingPage';
 import Login from './pages/public/Login';
 import BlogList from './pages/public/BlogList';   // New
 import BlogPost from './pages/public/BlogPost';   // New
+import Software from './pages/public/Software';
+import Hardware from './pages/public/Hardware';
 
 // --- FARM DASHBOARD PAGES ---
 import FarmDashboard from './pages/farm/FarmDashboard';
@@ -53,6 +55,8 @@ function App() {
         <main className="w-full">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/software" element={<Software />} />
+            <Route path="/hardware" element={<Hardware />} />
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
