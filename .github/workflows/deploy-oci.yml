@@ -21,44 +21,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install OCI CLI
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install oci-cli
-
-      - name: Configure OCI CLI from secrets
+      - name: Deploy to OCI
         env:
-          OCI_TENANCY: ${{ secrets.OCI_TENANCY }}
-          OCI_USER: ${{ secrets.OCI_USER }}
-          OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
-          OCI_REGION: ${{ secrets.OCI_REGION }}
-          OCI_PRIVATE_KEY_B64: ${{ secrets.OCI_PRIVATE_KEY_B64 }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_B64 }}
         run: |
-          mkdir -p ~/.oci
-          # Write config
-          cat > ~/.oci/config <<'EOF'
-[DEFAULT]
-user=${OCI_USER}
-fingerprint=${OCI_FINGERPRINT}
-tenancy=${OCI_TENANCY}
-region=${OCI_REGION}
-key_file=~/.oci/oci_api_key.pem
-EOF
-          # Decode private key (set secret as base64 of the PEM file)
-          echo "$OCI_PRIVATE_KEY_B64" | base64 -d > ~/.oci/oci_api_key.pem
-          chmod 600 ~/.oci/oci_api_key.pem
-
-      - name: Upload dist to OCI Object Storage
-        env:
-          OCI_BUCKET: ${{ secrets.OCI_BUCKET }}
-        run: |
-          ns=$(oci os ns get --raw-output)
-          cd dist
-          find . -type f | while read -r f; do
-            rel=${f#./}
-            # determine content type (fallback)
-            content_type=$(file --mime-type -b "$f" || echo "application/octet-stream")
-            cache='public, max-age=31536000, immutable'
-            if [ "$rel" = "index.html" ]; then cache='public, max-age=0, must-revalidate'; fi
-            oci os object put --namespace $ns --bucket-name "$OCI_BUCKET" --name "$rel" --file "$f" --content-type "$content_type" --opc-meta-cache-control "$cache" --force
-          done
+          # 1. Create the .ssh directory
+          mkdir -p ~/.ssh
+          
+          # 2. Decode the Base64 secret into a real private key file
+          echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+          
+          # 3. Set the correct permissions (SSH will reject the key if it's too 'open')
+          chmod 600 ~/.ssh/id_rsa
+          
+          # 4. Add OCI to known_hosts so it doesn't ask for confirmation
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+          # 5. Run the rsync command
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_DEST }}
