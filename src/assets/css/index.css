@@ -1,20 +1,49 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-/* 1. Remove the forced background from the global body */
+/* --- 1. Global Reset --- */
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: transparent; /* Let the components decide the color */
+  /* We use transparent so the Landing Page can show its own white/gradient backgrounds */
+  background-color: transparent; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2. Update the .app-container to be flexible */
+/* --- 2. Main Layout Container --- */
 .app-container {
-  display: block; /* Change from flex to block for the landing page */
   width: 100%;
+  min-height: 100vh;
+  display: block; /* Default for Landing Page */
 }
 
-/* 3. ONLY apply the grey dashboard background if we are NOT on the landing page */
-.app-container:not(.is-landing) {
+/* --- 3. Dashboard-Specific Styling --- */
+/* This ONLY triggers if your App.jsx adds the 'is-dashboard' class to the container */
+.app-container.is-dashboard {
   display: flex;
-  background-color: #f8fafc;
+  background-color: #f8fafc; /* Slate-50: The professional dashboard grey */
+}
+
+/* --- 4. Smooth Animations --- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for a modern look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
