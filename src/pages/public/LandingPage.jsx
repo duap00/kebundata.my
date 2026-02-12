@@ -1,10 +1,29 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async'; 
+
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
+    <div className="min-h-screen bg-[#fdfdfd] text-slate-900 overflow-x-hidden selection:bg-green-100 selection:text-green-900">
+      
+      {/* [2] SEO METADATA SECTION */}
+      <Helmet>
+        <title>KebunData | IoT Vertical Farming & Odoo 18 Integration</title>
+        <meta name="description" content="Automate your ZipGrow towers with Raspberry Pi IoT and Odoo 18 ERP. LHDN MyInvois compliant smart farming for Malaysian Agroprenuers." />
+        <meta name="keywords" content="ZipGrow Malaysia, Agrotech Malaysia, Odoo 18 LHDN, Agroprenuer Muda 2026, IoT Farming" />
+        
+        {/* Open Graph (WhatsApp/LinkedIn/Facebook) */}
+        <meta property="og:title" content="Grow Your Farm. Automate Profit. | KebunData" />
+        <meta property="og:description" content="Next-gen vertical farming automation with RPi CM4 & Odoo integration." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kebundata.my" />
+      </Helmet>
+
+      {/* Background Ornament */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[700px] bg-gradient-to-b from-green-50/60 to-transparent -z-10" />
     <div className="min-h-screen bg-[#fdfdfd] text-slate-900 overflow-x-hidden selection:bg-green-100 selection:text-green-900">
       {/* Background Ornament */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[700px] bg-gradient-to-b from-green-50/60 to-transparent -z-10" />
