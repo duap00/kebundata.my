@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async'; 
+import SEO from '../../components/SEO'; 
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -8,16 +8,12 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-[#fdfdfd] text-slate-900 overflow-x-hidden selection:bg-green-100 selection:text-green-900">
       
-      {/* SEO METADATA */}
-      <Helmet>
-        <title>KebunData | IoT Vertical Farming & Odoo 18 Integration</title>
-        <meta name="description" content="Automate your ZipGrow towers with Raspberry Pi IoT and Odoo 18 ERP. LHDN MyInvois compliant smart farming for Malaysian Agroprenuers." />
-        <meta name="keywords" content="ZipGrow Malaysia, Agrotech Malaysia, Odoo 18 LHDN, Agroprenuer Muda 2026, IoT Farming" />
-        <meta property="og:title" content="Grow Your Farm. Automate Profit. | KebunData" />
-        <meta property="og:description" content="Next-gen vertical farming automation with RPi CM4 & Odoo integration." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://kebundata.my" />
-      </Helmet>
+      {/* 1. SEO ENGINE */}
+      <SEO 
+        title="IoT Vertical Farming & Odoo 18 Integration" 
+        description="Automate your ZipGrow towers with Raspberry Pi IoT and Odoo 18 ERP. LHDN MyInvois compliant smart farming for Malaysian Agroprenuers."
+        keywords="ZipGrow Malaysia, Agrotech Malaysia, Odoo 18 LHDN, Agroprenuer Muda 2026, IoT Farming"
+      />
 
       {/* Background Ornament */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[700px] bg-gradient-to-b from-green-50/60 to-transparent -z-10" />
@@ -37,7 +33,15 @@ const LandingPage = () => {
             <a href="#features" className="hover:text-green-600 transition">Features</a>
             <Link to="/software" className="hover:text-green-600 transition">Software</Link>
             <Link to="/hardware" className="hover:text-green-600 transition">Hardware</Link>
-            <Link to="/blog" className="px-3 py-1 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition border border-green-100">Blog</Link>
+            <Link to="/blog" className="hover:text-green-600 transition">Blog</Link>
+            
+            {/* ✅ THIS LINK TAKES THEM TO THE CONTACT PAGE */}
+            <Link 
+              to="/contact" 
+              className="px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition border border-green-100 font-black"
+            >
+              Contact Us
+            </Link>
           </div>
 
           <Link to="/login" className="bg-slate-900 text-white px-8 py-3 rounded-full text-xs font-black tracking-widest hover:bg-green-600 hover:scale-105 transition-all shadow-xl shadow-green-100">
@@ -77,6 +81,7 @@ const LandingPage = () => {
             </div>
           </div>
 
+          {/* Visual Dashboard Mockup */}
           <div className="relative w-full group order-1 lg:order-2">
             <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-[3rem] blur-2xl opacity-10 group-hover:opacity-20 transition duration-1000"></div>
             <div className="relative bg-white border border-slate-200 rounded-[3rem] p-4 shadow-2xl overflow-hidden">
@@ -131,22 +136,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Software & Hardware Teasers */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
-           <div onClick={() => navigate('/software')} className="p-10 rounded-[3rem] bg-slate-50 border border-slate-100 hover:border-green-300 transition-all cursor-pointer group">
-              <h4 className="text-[10px] font-black text-green-600 mb-2 tracking-widest uppercase">The Ecosystem</h4>
-              <h2 className="text-3xl font-black mb-4 group-hover:text-green-600">Smart Software →</h2>
-              <p className="text-slate-500 text-sm font-medium">Connecting Odoo 18 with real-time sensor data.</p>
-           </div>
-           <div onClick={() => navigate('/hardware')} className="p-10 rounded-[3rem] bg-slate-50 border border-slate-100 hover:border-green-300 transition-all cursor-pointer group">
-              <h4 className="text-[10px] font-black text-green-600 mb-2 tracking-widest uppercase">The Build</h4>
-              <h2 className="text-3xl font-black mb-4 group-hover:text-green-600">Industrial Hardware →</h2>
-              <p className="text-slate-500 text-sm font-medium">ZipGrow towers powered by RPi CM4 technology.</p>
-           </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-500 py-24 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-16">
@@ -165,9 +154,13 @@ const LandingPage = () => {
             <div className="inline-block px-3 py-1 bg-green-500/10 text-green-500 rounded-md text-[10px] font-bold border border-green-500/20 font-mono">
               Reg: NS0312683-V
             </div>
-            <p className="text-xs mt-8 tracking-widest uppercase font-black opacity-30">
-              Siliau, Negeri Sembilan, Malaysia
-            </p>
+            <div className="flex flex-col md:items-end gap-2">
+               {/* ✅ FOOTER LINK ALSO GOES TO CONTACT PAGE */}
+               <Link to="/contact" className="text-xs font-black uppercase tracking-widest text-green-500 hover:text-white transition">Contact Support →</Link>
+               <p className="text-xs mt-4 tracking-widest uppercase font-black opacity-30">
+                 Siliau, Negeri Sembilan, Malaysia
+               </p>
+            </div>
           </div>
         </div>
       </footer>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../config/supabaseClient';
+import SEO from "../../components/SEO"; // ✅ FIXED: Changed from ../ to ../../
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
@@ -8,7 +9,6 @@ const BlogList = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      // Fetching your 3-4 monthly updates from the Supabase 'posts' table
       const { data, error } = await supabase
         .from('posts')
         .select('*')
@@ -33,8 +33,14 @@ const BlogList = () => {
 
   return (
     <div className="min-h-screen bg-[#fdfdfd] pt-32 pb-20 px-6">
+      {/* ✅ ADDED: Your SEO Engine is now active on the Blog page */}
+      <SEO 
+        title="The Harvest Blog" 
+        description="Strategic insights on ZipGrow technology, Odoo 18 automation, and the journey of Robot People Industries in Siliau."
+        keywords="Agrotech Blog Malaysia, ZipGrow Tips, Odoo 18 Farming, Robot People Industries"
+      />
+
       <div className="max-w-6xl mx-auto">
-        {/* Blog Header */}
         <header className="mb-20 text-center lg:text-left">
           <Link to="/" className="text-xs font-black text-green-600 tracking-widest uppercase mb-4 block hover:underline">
             ← Back to Home
@@ -47,7 +53,6 @@ const BlogList = () => {
           </p>
         </header>
 
-        {/* Blog Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.length > 0 ? (
             posts.map((post) => (
@@ -85,5 +90,4 @@ const BlogList = () => {
   );
 };
 
-// --- THIS LINE FIXES YOUR ERROR ---
 export default BlogList;

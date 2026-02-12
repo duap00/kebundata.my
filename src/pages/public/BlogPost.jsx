@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../config/supabaseClient';
 import ReactMarkdown from 'react-markdown';
+import SEO from "../../components/SEO";
 
 const BlogPost = () => {
   const { slug } = useParams();

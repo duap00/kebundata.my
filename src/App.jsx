@@ -9,6 +9,7 @@ import BlogList from './pages/public/BlogList';
 import BlogPost from './pages/public/BlogPost';
 import Software from './pages/public/Software';
 import Hardware from './pages/public/Hardware';
+import ContactPage from './pages/public/ContactPage'; // [1] Ensure this is imported
 
 // --- FARM DASHBOARD PAGES ---
 import FarmDashboard from './pages/farm/FarmDashboard';
@@ -20,7 +21,7 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true); // Added: Prevent UI jumps
+  const [loading, setLoading] = useState(true); 
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
@@ -30,13 +31,11 @@ function App() {
                           location.pathname.startsWith('/settings');
 
   useEffect(() => {
-    // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, _session) => {
       setSession(_session);
       if (event === 'SIGNED_OUT') navigate('/'); 
@@ -55,13 +54,11 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Show nothing or a spinner until Supabase confirms the user status
   if (loading) return <div className="h-screen flex items-center justify-center">Loading KebunData...</div>;
 
   return (
     <div className="app-container font-sans text-slate-900">
       
-      {/* 1. PUBLIC ROUTES (No Sidebar/Header) */}
       {!isDashboardArea ? (
         <main className="w-full">
           <Routes>
@@ -70,13 +67,13 @@ function App() {
             <Route path="/hardware" element={<Hardware />} />
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/contact" element={<ContactPage />} /> {/* [2] New Route Added */}
             <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
-            {/* Catch-all to prevent blank screens */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
       ) : (
-        /* 2. DASHBOARD LAYOUT (With Protected Sidebar & Header) */
+        /* DASHBOARD LAYOUT */
         <div className="flex flex-col h-screen w-full overflow-hidden bg-[#f8fafc]">
           <header className="z-[1100] flex justify-between items-center px-5 h-[70px] bg-white border-b border-gray-100 shadow-sm">
             <div className="flex items-center gap-3">
@@ -109,7 +106,6 @@ function App() {
           </header>
 
           <div className="flex flex-1 overflow-hidden">
-            {/* Sidebar Navigation */}
             <nav className={`
               ${isMobile ? 'fixed inset-y-0 left-0 w-64 shadow-2xl' : 'relative w-[75px]'} 
               bg-[#2c4035] transition-transform duration-300 z-[1050]
@@ -124,7 +120,6 @@ function App() {
               </div>
             </nav>
 
-            {/* Dashboard Content Area */}
             <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#f8fafc]">
               <Routes>
                 <Route path="/dashboard" element={session ? <FarmDashboard /> : <Navigate to="/login" />} />
@@ -140,7 +135,6 @@ function App() {
   );
 }
 
-// Helper component for Sidebar items
 const NavItem = ({ to, icon, label, isMobile }) => (
   <Link 
     to={to} 
