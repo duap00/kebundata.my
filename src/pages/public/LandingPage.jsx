@@ -2,29 +2,23 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async'; 
 
-
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-[#fdfdfd] text-slate-900 overflow-x-hidden selection:bg-green-100 selection:text-green-900">
       
-      {/* [2] SEO METADATA SECTION */}
+      {/* SEO METADATA */}
       <Helmet>
         <title>KebunData | IoT Vertical Farming & Odoo 18 Integration</title>
         <meta name="description" content="Automate your ZipGrow towers with Raspberry Pi IoT and Odoo 18 ERP. LHDN MyInvois compliant smart farming for Malaysian Agroprenuers." />
         <meta name="keywords" content="ZipGrow Malaysia, Agrotech Malaysia, Odoo 18 LHDN, Agroprenuer Muda 2026, IoT Farming" />
-        
-        {/* Open Graph (WhatsApp/LinkedIn/Facebook) */}
         <meta property="og:title" content="Grow Your Farm. Automate Profit. | KebunData" />
         <meta property="og:description" content="Next-gen vertical farming automation with RPi CM4 & Odoo integration." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kebundata.my" />
       </Helmet>
 
-      {/* Background Ornament */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[700px] bg-gradient-to-b from-green-50/60 to-transparent -z-10" />
-    <div className="min-h-screen bg-[#fdfdfd] text-slate-900 overflow-x-hidden selection:bg-green-100 selection:text-green-900">
       {/* Background Ornament */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[700px] bg-gradient-to-b from-green-50/60 to-transparent -z-10" />
 
@@ -87,7 +81,6 @@ const LandingPage = () => {
             <div className="absolute -inset-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-[3rem] blur-2xl opacity-10 group-hover:opacity-20 transition duration-1000"></div>
             <div className="relative bg-white border border-slate-200 rounded-[3rem] p-4 shadow-2xl overflow-hidden">
               <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 aspect-square md:aspect-video flex flex-col justify-between relative overflow-hidden">
-                {/* Visual Dashboard Mockup */}
                 <div className="flex justify-between items-start z-10">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
@@ -113,8 +106,6 @@ const LandingPage = () => {
                      <p className="text-2xl md:text-4xl font-black text-white">28°C</p>
                    </div>
                 </div>
-
-                {/* Background Decoration for Mockup */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
               </div>
             </div>
