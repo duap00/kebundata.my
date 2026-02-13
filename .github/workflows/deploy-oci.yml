@@ -1,0 +1,41 @@
+name: Build and Deploy to OCI Object Storage
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to OCI
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_B64 }}
+        run: |
+          # 1. Create the .ssh directory
+          mkdir -p ~/.ssh
+          
+          # 2. Decode the Base64 secret into a real private key file
+          echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+          
+          # 3. Set the correct permissions (SSH will reject the key if it's too 'open')
+          chmod 600 ~/.ssh/id_rsa
+          
+          # 4. Add OCI to known_hosts so it doesn't ask for confirmation
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+          # 5. Run the rsync command
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_DEST }}
