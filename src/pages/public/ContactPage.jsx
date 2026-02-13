@@ -1,78 +1,114 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Instagram, Facebook, MessageCircle, ArrowLeft } from 'lucide-react';
 import SEO from "../../components/SEO";
 
 const ContactPage = () => {
-  // Replace with your actual WhatsApp number (e.g., 60123456789)
-  const whatsappNumber = "60XXXXXXXXX"; 
-  const message = encodeURIComponent("Hi KebunData! I'm interested in your smart farming solutions.");
+  // Your specific WhatsApp details
+  const whatsappNumber = "60132881679"; 
+  const message = encodeURIComponent("Hi KebunData! Saya berminat dengan solusi smart farming anda.");
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-green-100">
       <SEO 
-        title="Contact Us" 
-        description="Get in touch with Robot People Industries in Siliau. Inquire about Odoo 18 integration and ZipGrow hardware."
-        keywords="Contact KebunData, Robot People Industries Siliau, Agrotech Support Malaysia"
+        title="Hubungi Kami | Robot People Industries" 
+        description="Hubungi Robot People Industries & KebunData di Bengkel Seri Sembilan, Batu 8 Mambau. Pakar IoT Pertanian dan Odoo 18."
       />
 
-      <header className="max-w-7xl mx-auto px-6 md:px-12 py-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold">K</div>
-            <div className="text-xl font-black">KebunData</div>
-          </div>
-          <nav className="space-x-4 text-sm font-bold text-slate-600">
-            <Link to="/" className="hover:text-green-600">Home</Link>
-            <Link to="/software" className="hover:text-green-600">Software</Link>
-            <Link to="/hardware" className="hover:text-green-600">Hardware</Link>
-          </nav>
-        </div>
+      {/* Header Navigation */}
+      <header className="max-w-7xl mx-auto px-6 md:px-12 py-8 flex justify-between items-center">
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg group-hover:rotate-6 transition-transform text-xl shadow-green-200">K</div>
+          <span className="text-xl font-black tracking-tighter italic">Kebun<span className="text-green-600">Data</span></span>
+        </Link>
+        <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-green-600 transition">
+          <ArrowLeft size={14} /> Kembali ke Laman Utama
+        </Link>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid lg:grid-cols-2 gap-16">
-        {/* Left Side: Contact Info */}
-        <div>
-          <h1 className="text-6xl font-black mb-8 tracking-tighter italic text-green-600">
-            Let's Talk.
-          </h1>
-          <p className="text-lg text-slate-500 mb-12 font-medium">
-            Whether you're looking for Odoo 18 implementation or high-tech ZipGrow hardware, 
-            our team at Siliau is ready to help you scale.
-          </p>
+      <main className="max-w-7xl mx-auto px-6 md:px-12 py-12 lg:py-20 grid lg:grid-cols-2 gap-16 items-center">
+        
+        {/* Left Column: Contact Methods */}
+        <div className="space-y-10">
+          <div>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 italic leading-[0.85] text-slate-900">
+              Jom <span className="text-green-600 font-black">Mula.</span>
+            </h1>
+            <p className="text-slate-500 text-lg font-medium max-w-md leading-relaxed">
+              Lawati ladang kami yang bertempat di <span className="text-slate-900 font-bold underline decoration-green-300">Bengkel Seri Sembilan</span>, Batu 8 Mambau untuk melihat teknologi KebunData secara live.
+            </p>
+          </div>
 
-          <div className="space-y-8">
+          <div className="grid gap-4">
+            {/* Primary WhatsApp Action */}
             <a 
               href={`https://wa.me/${whatsappNumber}?text=${message}`}
-              className="flex items-center gap-6 p-6 bg-green-50 rounded-[2rem] border border-green-100 hover:scale-[1.02] transition-transform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-8 bg-green-600 text-white rounded-[2.5rem] shadow-2xl shadow-green-200 hover:scale-[1.02] transition-all group"
             >
-              <span className="text-4xl">💬</span>
               <div>
-                <h3 className="font-black text-green-700">Chat on WhatsApp</h3>
-                <p className="text-sm text-green-600/70">Fastest response for inquiries</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70 mb-1">WhatsApp Terus</p>
+                <p className="text-2xl font-bold">+60 13 288 1679</p>
               </div>
+              <MessageCircle size={44} className="group-hover:rotate-12 transition-transform" />
             </a>
 
-            <div className="flex gap-4">
-              <a href="https://facebook.com/robotpeople" className="flex-1 p-6 bg-slate-50 rounded-[2rem] text-center font-black hover:bg-slate-100 transition">FB</a>
-              <a href="https://instagram.com/robotpeople" className="flex-1 p-6 bg-slate-50 rounded-[2rem] text-center font-black hover:bg-slate-100 transition">IG</a>
+            {/* Social Media Row */}
+            <div className="grid grid-cols-3 gap-4">
+              <a 
+                href="https://www.facebook.com/share/17g5Zcvdy4/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-8 bg-slate-50 border border-slate-100 rounded-[2.5rem] flex items-center justify-center text-slate-800 hover:bg-blue-50 hover:text-blue-600 transition-all shadow-sm"
+              >
+                <Facebook size={32} strokeWidth={2.5} />
+              </a>
+              <a 
+                href="https://www.instagram.com/robot.people" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-8 bg-slate-50 border border-slate-100 rounded-[2.5rem] flex items-center justify-center text-slate-800 hover:bg-pink-50 hover:text-pink-600 transition-all shadow-sm"
+              >
+                <Instagram size={32} strokeWidth={2.5} />
+              </a>
+              <a 
+                href="https://www.tiktok.com/@kebun_data" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-8 bg-slate-50 border border-slate-100 rounded-[2.5rem] flex items-center justify-center text-slate-800 hover:bg-black hover:text-white transition-all shadow-sm"
+              >
+                <span className="font-black text-xl tracking-tighter italic">TikTok</span>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Right Side: Map */}
-        <div className="h-[500px] w-full bg-slate-100 rounded-[3rem] overflow-hidden border border-slate-200 shadow-inner">
+        {/* Right Column: Google Maps Embed (Fixed Connection Issue) */}
+        <div className="relative h-[550px] w-full bg-slate-100 rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white group">
           <iframe 
-            title="KebunData Location"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.706140504627!2d101.90302387588636!3d2.665526955913254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdf53643f00ef1%3A0xda02cf468ec28100!2sBengkel%20Seri%20Sembilan!5e0!3m2!1sen!2smy!4v1700000000000!5m2!1sen!2smy" 
             width="100%" 
             height="100%" 
-            frameBorder="0" 
-            scrolling="no" 
-            marginHeight="0" 
-            marginWidth="0" 
-            src="https://maps.google.com/maps?q=Robot%20People%20Industries%20Siliau&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            style={{ border: 0 }} 
+            allowFullScreen="" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            className="group-hover:scale-105 transition-all duration-700 grayscale-[0.2] group-hover:grayscale-0"
           ></iframe>
+          
+          {/* Address Overlay */}
+          <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-white/20">
+            <p className="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1">Pintu Masuk Ladang</p>
+            <p className="text-sm font-bold text-slate-800">Bengkel Seri Sembilan, Batu 8 Mambau, 70300 Seremban, Negeri Sembilan</p>
+          </div>
         </div>
       </main>
+
+      {/* Small Footer Branding */}
+      <footer className="py-12 text-center">
+        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">Siliau • Seremban • Negeri Sembilan</p>
+      </footer>
     </div>
   );
 };
